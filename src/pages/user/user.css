@@ -1,0 +1,22 @@
+.user-main {
+    background-color: #12002b;
+}
+
+.user-header {
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+.user-edit-button {
+    border-color: #00bc77;
+    background-color: #00bc77;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.section-account {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
