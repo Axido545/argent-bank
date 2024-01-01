@@ -1,5 +1,11 @@
+import Header from "../../layout/header/Header"
+import Footer from "../../layout/footer/Footer"
 import "./user.css"
 
 export default function User() {
-    return <p>User page</p>
+    return <div>
+        <Header />
+        <p>User page</p>
+        <Footer />
+    </div>
 }
