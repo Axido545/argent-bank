@@ -1,0 +1,8 @@
+.feature-home {
+  flex-direction: row;
+  display: flex;
+}
+
+.feature-home-item {
+  width: 30%;
+}
