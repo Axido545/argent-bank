@@ -9,3 +9,12 @@
     max-width: 100%;
     width: 200px;
 }
+
+.header-nav {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.header-nav i {
+    margin-right: 0.5rem;
+}
