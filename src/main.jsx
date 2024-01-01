@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Home from './pages/home/Home.jsx'
-import SingIn from './pages/sing-in/Sing-in.jsx'
+import SignIn from './pages/sign-in/Sign-in.jsx'
 import User from './pages/user/User.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -12,8 +12,8 @@ const router = createBrowserRouter([
     element: <Home />
   },
   {
-    path: "/sing-in",
-    element: <SingIn />
+    path: "/sign-in",
+    element: <SignIn />
   },
   {
     path: "/user",
