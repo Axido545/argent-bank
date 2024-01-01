@@ -1,5 +1,6 @@
 import './home.css'
 import Header from "../../layout/header/Header.jsx"
+import Footer from '../../layout/footer/Footer.jsx'
 
 function Home() {
 
@@ -7,6 +8,7 @@ function Home() {
     <>
       <Header />
       <p>home page</p>
+      <Footer />
     </>
   )
 }
