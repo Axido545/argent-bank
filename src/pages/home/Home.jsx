@@ -6,15 +6,12 @@ import Feature from '../../components/feature/Feature.jsx'
 import url1 from "../../assets/icon-chat.png"
 import url2 from "../../assets/icon-money.png"
 import url3 from "../../assets/icon-security.png"
-import { useEffect } from 'react'
 
 function Home() {
   const content1 = "Need to talk to a representative? You can get in touch through our 24/7 chat or through a phone call in less than 5 minutes."
   const content2 = "The more you save with us, the higher your interest rate will be!"
   const content3 = "We use top of the line encryption to make sure your data and money is always safe. "
-  useEffect(() => {
-    document.title = "Argent Bank - Home Page"; // Le titre dans le navigateur
-  }, []);
+
   return (
     <>
       <Header />
