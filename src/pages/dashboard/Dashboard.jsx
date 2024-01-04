@@ -1,9 +1,9 @@
 import Header from "../../layout/header/Header"
 import Footer from "../../layout/footer/Footer"
-import "./user.css"
+import "./dashboard.css"
 import Account from "../../components/account/Account"
 
-export default function User() {
+export default function Dashboard() {
     return <div>
         <Header />
         <main className="user-main">

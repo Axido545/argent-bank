@@ -2,7 +2,7 @@ import Header from "../../layout/header/Header";
 import Footer from "../../layout/footer/Footer";
 import "./login.css"
 
-export default function SignIn() {
+export default function Login() {
     return <div>
         <Header />
         <main className="main-login">
@@ -27,7 +27,7 @@ export default function SignIn() {
                     /><label htmlFor="remember-me">Remember me</label>
 
                 </div>
-                <a className="login-button" href="/user">Sign in</a>
+                <a className="login-button" href="/dashboard">Sign in</a>
             </form>
         </main>
         <Footer />

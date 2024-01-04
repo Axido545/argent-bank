@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Home from './pages/home/Home.jsx'
-import SignIn from './pages/login/login.jsx'
-import User from './pages/user/User.jsx'
+import Login from './pages/login/login.jsx'
+import Dashboard from './pages/dashboard/Dashboard.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux'
@@ -14,12 +14,12 @@ const router = createBrowserRouter([
     element: <Home />
   },
   {
-    path: "/sign-in",
-    element: <SignIn />
+    path: "/login",
+    element: <Login />
   },
   {
-    path: "/user",
-    element: <User />
+    path: "/dashboard",
+    element: <Dashboard />
   },
 ]);
 
