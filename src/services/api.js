@@ -3,10 +3,19 @@ const apiUrl = "http://localhost:3001/api/v1/users/login"
 export function getLogin(email, password) {
     return fetch(apiUrl, {
         method: 'POST',
-        body: {
-            email: email,
-            password: password
+        headers: {
+            'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ email, password }),
     })
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${res.status}`);
+            }
+            return res.json();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la requête:', error);
+            throw error;
+        });
 }
