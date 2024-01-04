@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3001/api/v1/users/login"
+const apiUrl = "http://localhost:3001/api/v1/user/login"
 
 export function getLogin(email, password) {
     return fetch(apiUrl, {
