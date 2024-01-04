@@ -1,4 +1,4 @@
-.main-sign-in {
+.main-login {
     background-color: #12002b;
     display: flex;
     justify-content: center;
@@ -15,7 +15,7 @@
     padding: 2rem;
 }
 
-.sign-in-icon {
+.login-icon {
     font-size: 1.2rem;
 }
 
@@ -39,7 +39,7 @@
     display: flex;
 }
 
-.sign-in-button {
+.login-button {
     display: block;
     width: 100%;
     padding: 8px;
