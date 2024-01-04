@@ -1,5 +1,4 @@
 import "./account.css"
-import myPropTypes from 'prop-types';
 
 export default function Account({ title, amount, description }) {
     return <section className="account">
@@ -11,4 +10,3 @@ export default function Account({ title, amount, description }) {
     </section>
 }
 
-Account.propTypes = myPropTypes;
