@@ -13,25 +13,3 @@
     text-align: left;
     margin-bottom: 2rem;
 }
-
-.account-content-wrapper {
-    width: 100%;
-    flex: 1;
-}
-
-.account-title {
-    margin: 0;
-    padding: 0;
-    font-size: 1rem;
-    font-weight: normal;
-}
-
-.account-amount {
-    margin: 0;
-    font-size: 2.5rem;
-    font-weight: bold;
-}
-
-.account-amount-description {
-    margin: 0;
-}
