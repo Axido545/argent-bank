@@ -7,6 +7,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { mainStore } from './redux/store.js'
+import ErrorPage from './pages/errorpage/ErrorPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />
+  },
+  {
+    path: "/*",
+    element: <ErrorPage />
   },
 ]);
 
