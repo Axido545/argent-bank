@@ -9,12 +9,28 @@ export const loginAsync = createAsyncThunk("auth/login", async ({ email, passwor
 const authSlice = createSlice({
     name: "auth",
     initialState: {
+        user: null,
         token: null,
-        loading: false,
-        error: null,
+        // loading: false,
+        // error: null,
     },
-    reducers: {}
+    reducers: {
+        setCredentials: (state, action) => {
+            const { user, accessTocken } = action.payload
+            state.user = user
+            state.token = accessTocken
+        },
+        logOut: (state, action) => {
+            state.user = null
+            state.token = null
+        }
+
+    }
 
 })
 
+export const { setCredentials, logOut } = authSlice.actions
 export default authSlice.reducer;
+
+export const selectCurrentUser = (state) => state.auth.user
+export const selectCurrentToken = (state) => state.auth.token
