@@ -2,13 +2,23 @@ import Header from "../../layout/header/Header"
 import Footer from "../../layout/footer/Footer"
 import "./dashboard.css"
 import Account from "../../components/account/Account"
+import { useSelector } from "react-redux";
+import { selectCurrentUser, selectCurrentToken } from "../../redux/authSlice";
 
 export default function Dashboard() {
+    const user = useSelector(selectCurrentUser)
+    const token = useSelector(selectCurrentToken)
+
+    const welcome = user ? `Welcome ${user}!` : ''
+    const tokenAbbr = `${token.slice(0, 9)}...`
+
+
     return <div>
         <Header />
         <main className="user-main">
             <header className="user-header">
-                <h1>Welcome back<br /> Tony Jarvis !</h1>
+                <h1>Welcome back<br /> {welcome}</h1>
+                <p>Token : {tokenAbbr}</p>
                 <button className="user-edit-button">Edit Name</button>
             </header>
             <div className="section-account">

@@ -1,5 +1,5 @@
 import "./form.css"
-import { loginAsync, setCredentials } from "../../redux/authSlice"
+import { setCredentials } from "../../redux/authSlice"
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
