@@ -16,12 +16,21 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     password: credentials.password,
                 },
             })
+        }),
+        getUserProfile: builder.query({
+            query: token => ({
+                url: 'user/profile',
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
         })
-
-    })
-
-})
+    }),
+});
 
 export const {
-    useLoginMutation
+    useLoginMutation,
+    useGetUserProfileQuery,
 } = authApiSlice
