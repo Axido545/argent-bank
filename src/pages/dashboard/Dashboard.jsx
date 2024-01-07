@@ -18,6 +18,7 @@ export default function Dashboard() {
 
 
     useEffect(() => {
+        console.log(useGetUserProfileQuery)
         if (userProfile) {
             dispatch(setProfile(userProfile));
         }
