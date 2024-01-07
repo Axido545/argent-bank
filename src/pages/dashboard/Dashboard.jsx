@@ -4,26 +4,26 @@ import "./dashboard.css"
 import Account from "../../components/account/Account"
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser, selectCurrentToken } from "../../redux/authSlice";
-import { setProfile, setNoProfil } from "../../redux/userSlice";
+import { setProfile } from "../../redux/userSlice";
 import { useGetUserProfileQuery } from "../../redux/authApiSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { mainStore } from "../../redux/store";
 
 export default function Dashboard() {
+    const user = useSelector(selectCurrentUser)
+    const token = useSelector(selectCurrentToken)
+    console.log(user, token)
     const dispatch = useDispatch()
-    const userProfile = useSelector((state) => state.profile);
-    const userAuth = useSelector((state) => state.auth)
-    const token = userAuth.token;
-
-    console.log("userProfile:", userProfile);
-
-
+    const { data: userProfile, isError } = useGetUserProfileQuery();
     useEffect(() => {
-        console.log(useGetUserProfileQuery)
-        if (userProfile) {
+        console.log(user, token);
+        console.log("userProfile:", userProfile || "Profile not available yet");
+        console.log("Redux Store:", mainStore.getState());
+
+        if (!isError && userProfile) {
             dispatch(setProfile(userProfile));
         }
-    }, [dispatch, userProfile])
-    // const fullName = `${userProfile.firstName} ${userProfile.lastName}`;
+    }, [dispatch, user, token, userProfile, isError]);
 
     return <div>
         <Header />

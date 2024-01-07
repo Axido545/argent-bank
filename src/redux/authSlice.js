@@ -3,8 +3,14 @@ import { getLogin } from "../services/api";
 
 export const loginAsync = createAsyncThunk("auth/login", async ({ email, password }) => {
     const response = await getLogin(email, password);
+
+    if (response.status !== 200) {
+        throw new Error(`Authentication failed with status ${response.status}`);
+    }
+
     return response.body;
 });
+
 
 const authSlice = createSlice({
     name: "auth",
@@ -14,32 +20,32 @@ const authSlice = createSlice({
         isLoggedIn: false,
     },
     reducers: {
-        loginSuccess: (state, action) => {
-            console.log("login success")
-            state.token = action.payload.token;
-            state.isAuthenticated = true
-        },
-        loginFailed: (state) => {
-            state.token = null;
-            state.isAuthenticated = false
+        // loginSuccess: (state, action) => {
+        //     console.log("login success")
+        //     state.token = action.payload.token;
+        //     state.isAuthenticated = true
+        // },
+        // loginFailed: (state) => {
+        //     state.token = null;
+        //     state.isAuthenticated = false
 
 
-        },
+        // },
         setCredentials: (state, action) => {
-            const { user, accessToken } = action.payload
-            state.user = user
-            state.token = accessToken
+            const { user, accessToken } = action.payload;
+            console.log('Credentials set:', { user, accessToken });
+            state.token = accessToken;
         },
         logOut: (state) => {
             state.user = null
             state.token = null
         },
-        setLoggedIn: (state) => {
-            state.isLoggedIn = true;
-        },
-        setLoggedOut: (state) => {
-            state.isLoggedIn = false;
-        }
+        // setLoggedIn: (state) => {
+        //     state.isLoggedIn = true;
+        // },
+        // setLoggedOut: (state) => {
+        //     state.isLoggedIn = false;
+        // }
 
     }
 
