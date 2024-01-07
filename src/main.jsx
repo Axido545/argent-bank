@@ -21,7 +21,7 @@ const routes = [
   },
   {
     path: "/dashboard",
-    element: <RequireAuth><Dashboard /></RequireAuth>
+    element: <Dashboard />
   },
   {
     path: "/*",

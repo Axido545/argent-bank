@@ -27,12 +27,21 @@ export default function Form() {
         e.preventDefault();
         try {
             const userData = await login({ email, password }).unwrap()
+            console.log('Authentication response', userData);
+
             dispatch(setCredentials({ ...userData, email }))
+            console.log('Credentials set');
+
             setEmail('')
             setPassword('')
+            console.log('Email and password reset');
             navigate('/dashboard')
 
+
+
         } catch (err) {
+            console.error('Authentication error', err);
+
             if (!err.response) {
                 setErrMsg("aucune réponse du serveur");
             } else if (err.response?.status === 400) {
@@ -44,6 +53,7 @@ export default function Form() {
             }
             errRef.current.focus()
         }
+
     };
 
     const handleUserInput = (e) => setEmail(e.target.value)
@@ -52,7 +62,7 @@ export default function Form() {
     const content = isLoading ? <h1>Loading...</h1> : (
         <section className="Login">
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <form className="form-content" onSubmit={handleSubmit}>
+            <form className="form-content">
                 <i className="fa fa-user-circle login-icon"></i>
                 <h1 className="form-title">Sign in</h1>
                 <div className="input-wrapper">
@@ -61,34 +71,17 @@ export default function Form() {
                 </div>
                 <div className="input-wrapper">
                     <label htmlFor="password">Password</label>
-                    <input id="password" type="password" value={password} onChange={handlePasswordInput} />
+                    <input id="password" type="password" value={password} onChange={handlePasswordInput} autoComplete="current-password" />
                 </div>
                 <div className="input-remember">
                     <input type="checkbox" id="remember-me" />
                     <label htmlFor="remember-me">Remember me</label>
                 </div>
-                <button onClick={handleSubmit} className="login-button" href="/dashboard">Sign in</button>
-                <button onClick={testServerAccess} className="test-server-access-button">
-                    Test Server Access
-                </button>
+                <button className="login-button" onClick={handleSubmit} >Sign in</button>
             </form>
-        </section>
+        </section >
     )
 
     return content
 
 }
-
-const testServerAccess = async () => {
-    try {
-        const response = await fetch("http://localhost:3001/api/v1/user/login");
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Server response:", data);
-        } else {
-            console.error("Server response error:", response.statusText);
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    }
-};
