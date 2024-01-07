@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLoginMutation } from "../../redux/authApiSlice";
 
 export default function Form() {
-    const userRef = useRef('');
+    const emailRef = useRef('');
     const errRef = useRef("");
-    const [user, setUser] = useState("");
+    const [email, setEmail] = useState("");
     const [errMsg, setErrMsg] = useState("");
     const dispatch = useDispatch()
     const [password, setPassword] = useState("");
@@ -16,19 +16,19 @@ export default function Form() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        userRef.current.focus()
+        emailRef.current.focus()
     }, [])
 
     useEffect(() => {
         setErrMsg("")
-    }, [user, password])
+    }, [email, password])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userData = await login({ user, password }).unwrap()
-            dispatch(setCredentials({ ...userData, user }))
-            setUser('')
+            const userData = await login({ email, password }).unwrap()
+            dispatch(setCredentials({ ...userData, email }))
+            setEmail('')
             setPassword('')
             navigate('/dashboard')
 
@@ -46,7 +46,7 @@ export default function Form() {
         }
     };
 
-    const handleUserInput = (e) => setUser(e.target.value)
+    const handleUserInput = (e) => setEmail(e.target.value)
     const handlePasswordInput = (e) => setPassword(e.target.value)
 
     const content = isLoading ? <h1>Loading...</h1> : (
@@ -56,8 +56,8 @@ export default function Form() {
                 <i className="fa fa-user-circle login-icon"></i>
                 <h1 className="form-title">Sign in</h1>
                 <div className="input-wrapper">
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" ref={userRef} autoComplete="off" value={user} onChange={handleUserInput} required />
+                    <label htmlFor="email">Username</label>
+                    <input type="text" id="email" ref={emailRef} autoComplete="off" value={email} onChange={handleUserInput} required />
                 </div>
                 <div className="input-wrapper">
                     <label htmlFor="password">Password</label>
@@ -68,6 +68,9 @@ export default function Form() {
                     <label htmlFor="remember-me">Remember me</label>
                 </div>
                 <button onClick={handleSubmit} className="login-button" href="/dashboard">Sign in</button>
+                <button onClick={testServerAccess} className="test-server-access-button">
+                    Test Server Access
+                </button>
             </form>
         </section>
     )
@@ -75,3 +78,17 @@ export default function Form() {
     return content
 
 }
+
+const testServerAccess = async () => {
+    try {
+        const response = await fetch("http://localhost:3001/api/v1/user/login");
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Server response:", data);
+        } else {
+            console.error("Server response error:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};

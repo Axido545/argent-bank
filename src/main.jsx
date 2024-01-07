@@ -4,12 +4,13 @@ import Home from './pages/home/Home.jsx'
 import Login from './pages/login/login.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { mainStore } from './redux/store.js'
 import ErrorPage from './pages/errorpage/ErrorPage.jsx'
+import RequireAuth from './pages/login/RequireAuth.jsx'
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: "/",
     element: <Home />
@@ -20,18 +21,24 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />
+    element: <RequireAuth><Dashboard /></RequireAuth>
   },
   {
     path: "/*",
     element: <ErrorPage />
   },
-]);
+];
+
+const router = createBrowserRouter(routes)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={mainStore}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} >
+        {routes.map(route => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+      </RouterProvider>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode >,
 )
