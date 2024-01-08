@@ -2,34 +2,19 @@ import Header from "../../layout/header/Header"
 import Footer from "../../layout/footer/Footer"
 import "./dashboard.css"
 import Account from "../../components/account/Account"
-import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentUser, selectCurrentToken } from "../../redux/authSlice";
-import { setProfile } from "../../redux/userSlice";
-import { useGetUserProfileQuery } from "../../redux/authApiSlice";
-import { useEffect } from "react";
-import { mainStore } from "../../redux/store";
+// import { useSelector } from "react-redux";
+// import { selectCurrentUser, selectCurrentToken } from "../../redux/authSlice";
 
 export default function Dashboard() {
-    const user = useSelector(selectCurrentUser)
-    const token = useSelector(selectCurrentToken)
-    console.log(user, token)
-    const dispatch = useDispatch()
-    const { data: userProfile, isError } = useGetUserProfileQuery();
-    useEffect(() => {
-        console.log(user, token);
-        console.log("userProfile:", userProfile || "Profile not available yet");
-        console.log("Redux Store:", mainStore.getState());
-
-        if (!isError && userProfile) {
-            dispatch(setProfile(userProfile));
-        }
-    }, [dispatch, user, token, userProfile, isError]);
+    // const user = useSelector(selectCurrentUser)
+    // const token = useSelector(selectCurrentToken)
+    // console.log(user, token)
 
     return <div>
         <Header />
         <main className="user-main">
             <header className="user-header">
-                <h1>Welcome back<br />{userProfile?.firstName}</h1>
+                <h1>Welcome back<br />Name of the user</h1>
                 <button className="user-edit-button"></button>
             </header>
             <div className="section-account">

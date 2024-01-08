@@ -26,22 +26,17 @@ export default function Form() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userData = await login({ email, password }).unwrap()
+            const response = await login({ email, password });
+            const userData = response.data;
             console.log('Authentication response', userData);
-
-            dispatch(setCredentials({ ...userData, email }))
-            console.log('Credentials set');
-
-            setEmail('')
-            setPassword('')
-            console.log('Email and password reset');
-            navigate('/dashboard')
+            dispatch(setCredentials({ user: userData.body, accessToken: userData.body.token, }))
 
 
-
+            setEmail('');
+            setPassword('');
+            navigate('/dashboard');
         } catch (err) {
             console.error('Authentication error', err);
-
             if (!err.response) {
                 setErrMsg("aucune réponse du serveur");
             } else if (err.response?.status === 400) {
@@ -81,7 +76,5 @@ export default function Form() {
             </form>
         </section >
     )
-
     return content
-
 }

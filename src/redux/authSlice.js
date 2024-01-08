@@ -1,16 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getLogin } from "../services/api";
+// import { getLogin } from "../services/api";
+import { authApiSlice } from "./authApiSlice";
 
-export const loginAsync = createAsyncThunk("auth/login", async ({ email, password }) => {
-    const response = await getLogin(email, password);
-
-    if (response.status !== 200) {
-        throw new Error(`Authentication failed with status ${response.status}`);
-    }
-
-    return response.body;
-});
-
+export const loginAsync = createAsyncThunk(
+    "auth/login",
+    async ({ email, password }) => {
+        const response = await authApiSlice.endpoints.login({
+            email, password
+        }).unwrap();
+        return response;
+    });
 
 const authSlice = createSlice({
     name: "auth",
@@ -20,41 +19,29 @@ const authSlice = createSlice({
         isLoggedIn: false,
     },
     reducers: {
-        // loginSuccess: (state, action) => {
-        //     console.log("login success")
-        //     state.token = action.payload.token;
-        //     state.isAuthenticated = true
-        // },
-        // loginFailed: (state) => {
-        //     state.token = null;
-        //     state.isAuthenticated = false
-
-
-        // },
         setCredentials: (state, action) => {
-            const { user, accessToken } = action.payload;
-            console.log('Credentials set:', { user, accessToken });
+            const { accessToken } = action.payload;
+            console.log('Credentials set:', { accessToken });
             state.token = accessToken;
         },
         logOut: (state) => {
             state.user = null
             state.token = null
         },
-        // setLoggedIn: (state) => {
-        //     state.isLoggedIn = true;
-        // },
-        // setLoggedOut: (state) => {
-        //     state.isLoggedIn = false;
-        // }
-
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginAsync.fulfilled, (state, action) => {
+                state.user = action.payload.user;
+                state.token = action.payload.accessToken;
+                state.isLoggedIn = true;
+            })
     }
-
 })
-export const { setLoggedIn, setLoggedOut } = authSlice.actions;
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-
-export const { setCredentials, logOut } = authSlice.actions
-export default authSlice.reducer;
-
 export const selectCurrentUser = (state) => state.auth.user
 export const selectCurrentToken = (state) => state.auth.token
+
+export const { setCredentials, logOut } = authSlice.actions
+
+export default authSlice.reducer;
