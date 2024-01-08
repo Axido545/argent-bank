@@ -1,19 +1,16 @@
 import "./nav.css"
 import { NavLink } from "react-router-dom"
-// import { useSelector } from "react-redux";
-// import { selectIsLoggedIn } from "../../redux/authSlice";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "../../redux/authSlice";
 
 export default function Nav() {
-    // const isLoggedIn = useSelector(selectIsLoggedIn);
-    // console.log("isLoggedIn:", isLoggedIn);
+    const token = useSelector(selectCurrentToken)
+    console.log(token)
 
-    return (<NavLink to='/login'
-        // {isLoggedIn ? "/" : "/login"} 
+    return (<NavLink to={token ? "/" : "/login"}
         className="header-nav">
         <i className="fa fa-user-circle"></i>
-        {/* {isLoggedIn ? "Sign Out" : "Sign In"} */}
-        Sign In
+        {token ? "Sign Out" : "Sign In"}
     </NavLink>
-
     )
 }
