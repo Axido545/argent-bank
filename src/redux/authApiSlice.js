@@ -1,4 +1,5 @@
 import { apiSlice } from '../app/api/apiSlice'
+import { setProfile, setNoProfil } from './userSlice';
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -6,11 +7,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
             query: credentials => ({
                 url: 'user/login',
                 method: 'POST',
-                // body: { ...credentials }
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // body: JSON.stringify(credentials),
                 body: {
                     email: credentials.email,
                     password: credentials.password,
@@ -18,14 +17,32 @@ export const authApiSlice = apiSlice.injectEndpoints({
             })
         }),
         getUserProfile: builder.query({
-            query: token => ({
-                url: 'user/profile',
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            queryFn: async ({ token }) => {
+                const response = await fetch('user/profile', {
+                    methode: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message);
+                }
 
+                return response.json();
+
+            },
+            onSuccess: (result, { dispatch, queryFulFilled }) => {
+                const { firstName, lastName } = result.body;
+
+                if (firstName && lastName) {
+                    dispatch(setProfile({ firstName, lastName }))
+                } else {
+                    dispatch(setNoProfil("Aucun profil trouvé"))
+                }
+                queryFulFilled(result)
+            }
         })
     }),
 });
@@ -33,4 +50,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
 export const {
     useLoginMutation,
     useGetUserProfileQuery,
-} = authApiSlice
+} = authApiSlice;
