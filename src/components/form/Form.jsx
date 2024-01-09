@@ -25,30 +25,36 @@ export default function Form() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const handleErrorResponse = (status, message) => {
+            console.error('Authentication error', status, message);
+            setErrMsg(message);
+            errRef.current?.focus();
+        };
+
         try {
             const response = await login({ email, password });
-            const userData = response.data;
-            console.log('Authentication response', userData);
-            dispatch(setCredentials({ user: userData.body, accessToken: userData.body.token, }))
+            console.log('Response:', response);
 
-
-            setEmail('');
-            setPassword('');
-            navigate('/dashboard');
+            if (response.error && response.error.data) {
+                const { status } = response.error.data;
+                handleErrorResponse(status, status === 400 ? 'Identifiant ou mot de passe non valide' : 'Non autorisé');
+            } else {
+                const userData = response?.data;
+                console.log('Authentication response', userData);
+                dispatch(setCredentials({ user: userData.body, accessToken: userData.body.token }));
+                setEmail('');
+                setPassword('');
+                navigate('/dashboard');
+            }
         } catch (err) {
             console.error('Authentication error', err);
-            if (!err.response) {
-                setErrMsg("aucune réponse du serveur");
-            } else if (err.response?.status === 400) {
-                setErrMsg("Identifiant ou mot de passe manquant")
-            } else if (err.reponse?.status === 401) {
-                setErrMsg("Non autorisé")
-            } else {
-                setErrMsg('La connexion a échoué')
-            }
-            errRef.current.focus()
+            const { status } = err.response || {};
+            handleErrorResponse(status, {
+                400: 'Identifiant ou mot de passe manquant',
+                401: 'Non autorisé',
+            }[status] || 'La connexion a échoué');
         }
-
     };
 
     const handleUserInput = (e) => setEmail(e.target.value)
@@ -56,7 +62,7 @@ export default function Form() {
 
     const content = isLoading ? <h1>Loading...</h1> : (
         <section className="Login">
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <p ref={errRef} style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <form className="form-content">
                 <i className="fa fa-user-circle login-icon"></i>
                 <h1 className="form-title">Sign in</h1>
