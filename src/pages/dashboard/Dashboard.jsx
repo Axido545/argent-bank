@@ -4,7 +4,7 @@ import "./dashboard.css"
 import Account from "../../components/account/Account"
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../redux/authSlice";
-
+import EditName from "../../components/editname/EditName";
 export default function Dashboard() {
     const token = useSelector(selectCurrentToken)
     console.log(token)
@@ -18,7 +18,7 @@ export default function Dashboard() {
         <main className="user-main">
             <header className="user-header">
                 <h1>Welcome back<br />{firstName} {lastName}!</h1>
-                <button className="user-edit-button"></button>
+                <EditName />
             </header>
             <div className="section-account">
                 <Account title="Argent Bank Checking (x8349)" amount="$2,082.79" description="Available Balance" />
