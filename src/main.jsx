@@ -8,7 +8,6 @@ import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { mainStore } from './redux/store.js'
 import ErrorPage from './pages/errorpage/ErrorPage.jsx'
-import RequireAuth from './pages/login/RequireAuth.jsx'
 
 const routes = [
   {

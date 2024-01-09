@@ -2,19 +2,22 @@ import Header from "../../layout/header/Header"
 import Footer from "../../layout/footer/Footer"
 import "./dashboard.css"
 import Account from "../../components/account/Account"
-// import { useSelector } from "react-redux";
-// import { selectCurrentUser, selectCurrentToken } from "../../redux/authSlice";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "../../redux/authSlice";
 
 export default function Dashboard() {
-    // const user = useSelector(selectCurrentUser)
-    // const token = useSelector(selectCurrentToken)
-    // console.log(user, token)
+    const token = useSelector(selectCurrentToken)
+    console.log(token)
+
+    const userProfile = useSelector((state) => state.user);
+    const firstName = userProfile && userProfile.firstName ? userProfile.firstName + "  " : "";
+    const lastName = userProfile && userProfile.lastName ? userProfile.lastName + "  " : "";
 
     return <div>
         <Header />
         <main className="user-main">
             <header className="user-header">
-                <h1>Welcome back<br />Name of the user</h1>
+                <h1>Welcome back<br />{firstName} {lastName}!</h1>
                 <button className="user-edit-button"></button>
             </header>
             <div className="section-account">

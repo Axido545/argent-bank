@@ -23,7 +23,7 @@ export default function Nav() {
                     return response.json();
                 })
                 .then((userData) => {
-                    dispatch(setProfile({ firstName: userData.body.firstName }));
+                    dispatch(setProfile({ firstName: userData.body.firstName, lastName: userData.body.lastName }));
                     console.log(setProfile({ firstName: userData.body.firstName }))
                 })
                 .catch((error) => {
