@@ -11,11 +11,14 @@ const userSlice = createSlice({
         },
         setNoProfil: (state, action) => {
             state.error = action.payload
-        }
+        },
+        resetUserState: (state) => {
+            return { ...state, firstName: '', lastName: '', error: null };
+        },
     }
 
 })
 
-export const { setProfile, setNoProfil } = userSlice.actions;
+export const { setProfile, setNoProfil, resetUserState } = userSlice.actions;
 
 export default userSlice.reducer;

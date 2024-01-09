@@ -1,10 +1,9 @@
 import "./nav.css"
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentToken, selectCurrentUser } from "../../redux/authSlice";
-import { useGetUserProfileQuery } from "../../redux/authApiSlice";
+import { selectCurrentToken, logOut } from "../../redux/authSlice";
 import { useEffect } from "react";
-import { setProfile, setNoProfil } from "../../redux/userSlice";
+import { setProfile, setNoProfil, resetUserState } from "../../redux/userSlice";
 
 export default function Nav() {
     const token = useSelector(selectCurrentToken)
@@ -24,17 +23,22 @@ export default function Nav() {
                     return response.json();
                 })
                 .then((userData) => {
-                    // console.log("userProfileData du fetchUserProfile:", userData);
                     dispatch(setProfile({ firstName: userData.body.firstName }));
                     console.log(setProfile({ firstName: userData.body.firstName }))
                 })
                 .catch((error) => {
-                    //console.error("Erreur dans fetch user profile:", error);
+                    console.error("Erreur dans fetch user profile:", error);
                     dispatch(setNoProfil());
                     console.log(setNoProfil())
                 });
         }
     }, [token, dispatch]);
+
+    const handleLogout = () => {
+        dispatch(logOut());
+        dispatch(resetUserState());
+    }
+
     const userProfile = useSelector((state) => state.user);
     console.log(userProfile)
     const userName = userProfile && userProfile.firstName ? userProfile.firstName + "  " : "";
@@ -43,6 +47,6 @@ export default function Nav() {
     return (<Link to={token ? "/" : "/login"}
         className="header-nav">
         <i className="fa fa-user-circle"></i>{userName ? userName : ""}
-        {token ? (<span>{icon} Sign out </span>) : " Sign in "}
+        {token ? (<span onClick={handleLogout}>{icon} Sign out </span>) : " Sign in "}
     </Link>)
 }
