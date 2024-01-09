@@ -21,13 +21,13 @@ export default function Dashboard() {
                 <EditName />
             </header>
             <div className="section-account">
-                <Account title="Argent Bank Checking (x8349)" amount="$2,082.79" description="Available Balance" />
+                <Account type='checking' />
             </div>
             <div className="section-account">
-                <Account title="Argent Bank Savings (x6712)" amount="$10,928.42" description="Available Balance" />
+                <Account type='saving' />
             </div>
             <div className="section-account">
-                <Account title="Argent Bank Credit Card (x8349)" amount="$184.30" description="Current Balance" />
+                <Account type="creditCard" />
             </div>
         </main>
         <Footer />
