@@ -1,6 +1,7 @@
 .header-nav {
     font-weight: bold;
     color: #2c3e50;
+    text-decoration: none;
 }
 
 .header-nav i {

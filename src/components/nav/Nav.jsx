@@ -1,5 +1,5 @@
 import "./nav.css"
-import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentToken, selectCurrentUser } from "../../redux/authSlice";
 import { useGetUserProfileQuery } from "../../redux/authApiSlice";
@@ -37,11 +37,12 @@ export default function Nav() {
     }, [token, dispatch]);
     const userProfile = useSelector((state) => state.user);
     console.log(userProfile)
-    const userName = userProfile && userProfile.firstName ? userProfile.firstName : "Utilisateur";
+    const userName = userProfile && userProfile.firstName ? userProfile.firstName + "  " : "";
     console.log(userName + " nom de l'utilisateur");
-    return (<NavLink to={token ? "/" : "/login"}
-        className="header-nav">  {userName ? userName : ""}
-        <i className="fa fa-user-circle"></i>
-        {token ? `Sign Out ` : "Sign In"}
-    </NavLink>)
+    const icon = <i className="fa fa-right-from-bracket"></i>;
+    return (<Link to={token ? "/" : "/login"}
+        className="header-nav">
+        <i className="fa fa-user-circle"></i>{userName ? userName : ""}
+        {token ? (<span>{icon} Sign out </span>) : " Sign in "}
+    </Link>)
 }
