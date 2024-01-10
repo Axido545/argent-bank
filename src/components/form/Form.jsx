@@ -18,9 +18,10 @@ export default function Form() {
     useEffect(() => {
         if (token) {
             navigate("/dashboard")
+        } else {
+            console.log(errMsg)
         }
-
-    }, [token, navigate])
+    }, [token, navigate, errMsg])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,7 +33,7 @@ export default function Form() {
 
     const content = (
         <section className="Login">
-            <p style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <p style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">"le message d'erreur doit apparaitre ici"</p>
             <form className="form-content">
                 <i className="fa fa-user-circle login-icon"></i>
                 <h1 className="form-title">Sign in</h1>

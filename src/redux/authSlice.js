@@ -5,12 +5,16 @@ export const loginAsync = createAsyncThunk(
     "auth/login",
     async ({ email, password }, { rejectWithValue }) => {
         try {
-            const response = await getLogin(
-                email, password
-            )
+            const response = await getLogin(email, password);
+
+            if (!response.ok) {
+                if
+                let errorMessage = "An error occurred";
+                throw new Error(errorMessage || "An error occurred");
+            }
             return response.body;
         } catch (error) {
-            rejectWithValue(error.message)
+            return rejectWithValue(error.message || "An error occurred")
         }
     });
 
@@ -23,12 +27,12 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
-                state.token = action.payload.token;
+                state.token = action.payload;
                 state.error = "";
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.token = null;
-                state.error = action.payload
+                state.error = action.payload;
             })
     }
 })
