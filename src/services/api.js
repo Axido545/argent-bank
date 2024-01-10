@@ -8,14 +8,5 @@ export function getLogin(email, password) {
         },
         body: JSON.stringify({ email, password }),
     })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error(`Erreur HTTP! Statut: ${res.status}`);
-            }
-            return res.json();
-        })
-        .catch(error => {
-            console.error('Erreur lors de la requête:', error);
-            throw error;
-        });
+        .then(response => response.json())
 }

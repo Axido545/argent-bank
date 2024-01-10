@@ -1,5 +1,10 @@
 import "./editname.css"
 
 export default function EditName() {
-    return <button className="user-edit-button">Edit Name</button>
+
+    const handleOpenInput = () => {
+
+    }
+    const content = <button className="user-edit-button">Edit Name</button>
+    return content
 }

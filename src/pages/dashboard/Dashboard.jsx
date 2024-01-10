@@ -3,15 +3,13 @@ import Footer from "../../layout/footer/Footer"
 import "./dashboard.css"
 import Account from "../../components/account/Account"
 import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../../redux/authSlice";
 import EditName from "../../components/editname/EditName";
 export default function Dashboard() {
-    const token = useSelector(selectCurrentToken)
+    const token = useSelector(state => state.auth.token)
     console.log(token)
 
-    const userProfile = useSelector((state) => state.user);
-    const firstName = userProfile && userProfile.firstName ? userProfile.firstName + "  " : "";
-    const lastName = userProfile && userProfile.lastName ? userProfile.lastName + "  " : "";
+    const firstName = "";
+    const lastName = "";
 
     return <div>
         <Header />

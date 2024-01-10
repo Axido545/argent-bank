@@ -1,47 +1,36 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { getLogin } from "../services/api";
-import { authApiSlice } from "./authApiSlice";
+import { getLogin } from "../services/api";
 
 export const loginAsync = createAsyncThunk(
     "auth/login",
-    async ({ email, password }) => {
-        const response = await authApiSlice.endpoints.login({
-            email, password
-        }).unwrap();
-        return response;
+    async ({ email, password }, { rejectWithValue }) => {
+        try {
+            const response = await getLogin(
+                email, password
+            )
+            return response.body;
+        } catch (error) {
+            rejectWithValue(error.message)
+        }
     });
 
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        user: null,
         token: null,
-        isLoggedIn: false,
-    },
-    reducers: {
-        setCredentials: (state, action) => {
-            const { accessToken } = action.payload;
-            console.log('Credentials set:', { accessToken });
-            state.token = accessToken;
-        },
-        logOut: (state) => {
-            state.user = null
-            state.token = null
-        },
+        error: "",
     },
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
-                state.user = action.payload.user;
-                state.token = action.payload.accessToken;
-                state.isLoggedIn = true;
+                state.token = action.payload.token;
+                state.error = "";
+            })
+            .addCase(loginAsync.rejected, (state, action) => {
+                state.token = null;
+                state.error = action.payload
             })
     }
 })
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectCurrentUser = (state) => state.auth.user
-export const selectCurrentToken = (state) => state.auth.token
-
-export const { setCredentials, logOut } = authSlice.actions
 
 export default authSlice.reducer;

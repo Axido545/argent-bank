@@ -1,74 +1,44 @@
 import "./form.css"
-import { setCredentials } from "../../redux/authSlice"
-import { useDispatch } from "react-redux";
-import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
-import { useLoginMutation } from "../../redux/authApiSlice";
+import { loginAsync } from "../../redux/authSlice";
 
 export default function Form() {
-    const emailRef = useRef('');
-    const errRef = useRef("");
-    const [email, setEmail] = useState("");
-    const [errMsg, setErrMsg] = useState("");
     const dispatch = useDispatch()
-    const [password, setPassword] = useState("");
-    const [login, { isLoading }] = useLoginMutation();
     const navigate = useNavigate()
 
-    useEffect(() => {
-        emailRef.current.focus()
-    }, [])
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const errMsg = useSelector(state => state.auth.error)
+    const token = useSelector(state => state.auth.token)
+
 
     useEffect(() => {
-        setErrMsg("")
-    }, [email, password])
+        if (token) {
+            navigate("/dashboard")
+        }
+
+    }, [token, navigate])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const handleErrorResponse = (status, message) => {
-            console.error('Authentication error', status, message);
-            setErrMsg(message);
-            errRef.current?.focus();
-        };
-
-        try {
-            const response = await login({ email, password });
-            console.log('Response:', response);
-
-            if (response.error && response.error.data) {
-                const { status } = response.error.data;
-                handleErrorResponse(status, status === 400 ? 'Identifiant ou mot de passe non valide' : 'Non autorisé');
-            } else {
-                const userData = response?.data;
-                console.log('Authentication response', userData);
-                dispatch(setCredentials({ user: userData.body, accessToken: userData.body.token }));
-                setEmail('');
-                setPassword('');
-                navigate('/dashboard');
-            }
-        } catch (err) {
-            console.error('Authentication error', err);
-            const { status } = err.response || {};
-            handleErrorResponse(status, {
-                400: 'Identifiant ou mot de passe manquant',
-                401: 'Non autorisé',
-            }[status] || 'La connexion a échoué');
-        }
+        dispatch(loginAsync({ email, password }))
     };
 
     const handleUserInput = (e) => setEmail(e.target.value)
     const handlePasswordInput = (e) => setPassword(e.target.value)
 
-    const content = isLoading ? <h1>Loading...</h1> : (
+    const content = (
         <section className="Login">
-            <p ref={errRef} style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+            <p style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <form className="form-content">
                 <i className="fa fa-user-circle login-icon"></i>
                 <h1 className="form-title">Sign in</h1>
                 <div className="input-wrapper">
                     <label htmlFor="email">Username</label>
-                    <input type="text" id="email" ref={emailRef} autoComplete="off" value={email} onChange={handleUserInput} required />
+                    <input type="text" id="email" autoComplete="off" value={email} onChange={handleUserInput} required />
                 </div>
                 <div className="input-wrapper">
                     <label htmlFor="password">Password</label>
