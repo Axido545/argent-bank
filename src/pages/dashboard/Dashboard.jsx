@@ -12,12 +12,15 @@ export default function Dashboard() {
     const firstName = useSelector(state => state.user.firstName);
     const lastName = useSelector(state => state.user.lastName);
     console.log(token, firstName, lastName)
+    const jsonResponse = token;
+    const token1 = jsonResponse ? jsonResponse.token : null;
 
+    console.log(token1); // Affiche le token
     useEffect(() => {
-        if (token) {
-            dispatch(profileAsync({ token }));
+        if (token1) {
+            dispatch(profileAsync({ token1 }));
         }
-    }, [token, dispatch])
+    }, [token1, dispatch])
 
     return <div>
         <Header />

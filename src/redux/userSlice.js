@@ -1,18 +1,41 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { postProfile } from "../services/api";
+import { apiProfile, getToken } from "../services/api";
 
 export const profileAsync = createAsyncThunk(
     "user/profile",
-    async (_, { rejectWithValue, getState }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const token = getState().auth.token;
-            console.log("Token:", token);
-            const response = await postProfile(token);
-            return response.body;
-        } catch (error) {
-            return rejectWithValue(error.message)
+            const token = getToken();
+            console.log(getToken())
+            const payload = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token, // Ajoutez un espace après "Bearer"
+                },
+            };
+            const response = await fetch(apiProfile, payload);
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error("Non autorisé");
+                }
+
+                // si d'autres erreurs
+                throw new Error(`HTTP erreur! Status: ${response.status}`);
+            }
+
+            const userData = await response.json();
+
+            return {
+                userData: userData.body,
+                token: token,
+            };
+        } catch (e) {
+            return rejectWithValue("");
         }
-    });
+    }
+);
 
 const userSlice = createSlice({
     name: "user",
@@ -25,6 +48,10 @@ const userSlice = createSlice({
         builder
             .addCase(profileAsync.fulfilled, (state, action) => {
                 console.log("Fulfilled action payload:", action.payload);
+
+                const { userData, token } = action.payload;
+                console.log("User Data:", userData);
+                console.log("Token:", token);
 
                 state.firstName = action.payload.firstName || '';
                 state.lastName = action.payload.lastName || '';

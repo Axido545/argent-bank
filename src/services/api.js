@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3001/api/v1/user/login"
+export const apiUrl = "http://localhost:3001/api/v1/user/login"
 
 export async function postLogin(email, password) {
     return fetch(apiUrl, {
@@ -12,7 +12,7 @@ export async function postLogin(email, password) {
 }
 
 
-const apiProfile = "http://localhost:3001/api/v1/user/profile";
+export const apiProfile = "http://localhost:3001/api/v1/user/profile";
 
 export async function postProfile(token) {
     console.log("postProfile token:", token);
@@ -21,8 +21,8 @@ export async function postProfile(token) {
         const response = await fetch(apiProfile, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                "Content-Type": "application/json",
+                Authorization: "Bearer" + token,
             },
         });
 
@@ -34,18 +34,6 @@ export async function postProfile(token) {
             // si d'autres erreurs
             throw new Error(`HTTP erreur! Status: ${response.status}`);
         }
-        // const userData = await response.json();
-        // console.log("Response JSON:", userData);
-        // if (!userData) {
-        //     console.warn("Avertissement : Aucune donnée utilisateur dans la réponse JSON.");
-        // } else {
-        //     console.log("First Name:", userData.firstName);
-        //     console.log("Last Name:", userData.lastName);
-        // }
-        // return {
-        //     firstName: userData.firstName,
-        //     lastName: userData.lastName,
-        // };
         return response.json();
 
     } catch (error) {
@@ -54,3 +42,8 @@ export async function postProfile(token) {
         throw error;
     }
 }
+
+export const getToken = () => {
+    return localStorage.getItem("token");
+};
+console.log(getToken())
