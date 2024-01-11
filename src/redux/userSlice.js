@@ -11,7 +11,7 @@ export const profileAsync = createAsyncThunk(
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + token, // Ajoutez un espace après "Bearer"
+                    Authorization: `Bearer ${token}`,
                 },
             };
             const response = await fetch(apiProfile, payload);
