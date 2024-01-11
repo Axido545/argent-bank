@@ -1,17 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getLogin } from "../services/api";
+import { postLogin } from "../services/api";
 
 export const loginAsync = createAsyncThunk(
     "auth/login",
     async ({ email, password }, { rejectWithValue }) => {
         try {
-            const response = await getLogin(email, password);
+            const response = await postLogin(email, password);
 
             if (!response.ok) {
-                if
-                let errorMessage = "An error occurred";
-                throw new Error(errorMessage || "An error occurred");
+                if (response.status === 400) {
+                    let errorMessage = "Identifiant ou mot de passe incorrect";
+                    throw new Error(errorMessage);
+                }
+
             }
+
             return response.body;
         } catch (error) {
             return rejectWithValue(error.message || "An error occurred")

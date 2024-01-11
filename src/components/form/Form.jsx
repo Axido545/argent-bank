@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { loginAsync } from "../../redux/authSlice";
+import { profileAsync } from "../../redux/userSlice";
 
 export default function Form() {
     const dispatch = useDispatch()
@@ -19,7 +20,7 @@ export default function Form() {
         if (token) {
             navigate("/dashboard")
         } else {
-            console.log(errMsg)
+            console.log("pas de token oups")
         }
     }, [token, navigate, errMsg])
 
@@ -33,7 +34,7 @@ export default function Form() {
 
     const content = (
         <section className="Login">
-            <p style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">"le message d'erreur doit apparaitre ici"</p>
+            <p style={{ color: 'yellow' }} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <form className="form-content">
                 <i className="fa fa-user-circle login-icon"></i>
                 <h1 className="form-title">Sign in</h1>
