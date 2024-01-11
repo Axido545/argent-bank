@@ -3,24 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { loginAsync } from "../../redux/authSlice";
-import { profileAsync } from "../../redux/userSlice";
 
 export default function Form() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const errMsg = useSelector(state => state.auth.error)
     const token = useSelector(state => state.auth.token)
 
-
     useEffect(() => {
         if (token) {
             navigate("/dashboard")
         } else {
-            console.log("pas de token oups")
+            console.log("pas de token")
         }
     }, [token, navigate, errMsg])
 

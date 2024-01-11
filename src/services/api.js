@@ -15,6 +15,7 @@ export async function postLogin(email, password) {
 const apiProfile = "http://localhost:3001/api/v1/user/profile";
 
 export async function postProfile(token) {
+    console.log("postProfile token:", token);
 
     try {
         const response = await fetch(apiProfile, {
@@ -33,12 +34,20 @@ export async function postProfile(token) {
             // si d'autres erreurs
             throw new Error(`HTTP erreur! Status: ${response.status}`);
         }
-        const userData = await response.json();
-        return {
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-        };
-        // return response.json();
+        // const userData = await response.json();
+        // console.log("Response JSON:", userData);
+        // if (!userData) {
+        //     console.warn("Avertissement : Aucune donnée utilisateur dans la réponse JSON.");
+        // } else {
+        //     console.log("First Name:", userData.firstName);
+        //     console.log("Last Name:", userData.lastName);
+        // }
+        // return {
+        //     firstName: userData.firstName,
+        //     lastName: userData.lastName,
+        // };
+        return response.json();
+
     } catch (error) {
         // erreurs au cours du fetch
         console.error("Error lors de la récupération de l'utilisateur:", error.message);

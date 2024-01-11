@@ -6,22 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import EditName from "../../components/editname/EditName";
 import { useEffect } from "react";
 import { profileAsync } from "../../redux/userSlice";
-import { postProfile } from "../../services/api";
 export default function Dashboard() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const firstName = useSelector(state => state.user.firstName);
     const lastName = useSelector(state => state.user.lastName);
-    console.log(token)
+    console.log(token, firstName, lastName)
 
     useEffect(() => {
-
         if (token) {
-            // dispatch(postProfile({ token }));
-            // dispatch(postProfile({ token }));
-
+            dispatch(profileAsync({ token }));
         }
-
     }, [token, dispatch])
 
     return <div>

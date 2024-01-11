@@ -3,9 +3,9 @@ import { postProfile } from "../services/api";
 
 export const profileAsync = createAsyncThunk(
     "user/profile",
-    async (_, token, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = getState().auth.token;
             console.log("Token:", token);
             const response = await postProfile(token);
             return response.body;
@@ -24,6 +24,8 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(profileAsync.fulfilled, (state, action) => {
+                console.log("Fulfilled action payload:", action.payload);
+
                 state.firstName = action.payload.firstName || '';
                 state.lastName = action.payload.lastName || '';
                 state.error = "";
@@ -34,8 +36,6 @@ const userSlice = createSlice({
                 state.error = action.payload ? action.payload : "Une erreur est survenue";
             })
     }
-
 })
-
 
 export default userSlice.reducer;

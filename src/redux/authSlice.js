@@ -12,9 +12,7 @@ export const loginAsync = createAsyncThunk(
                     let errorMessage = "Identifiant ou mot de passe incorrect";
                     throw new Error(errorMessage);
                 }
-
             }
-
             return response.body;
         } catch (error) {
             return rejectWithValue(error.message || "An error occurred")
