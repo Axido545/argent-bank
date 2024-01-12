@@ -34,17 +34,22 @@ const userSlice = createSlice({
         lastName: '',
         error: null
     },
+    reducers: {
+        logout: (state) => {
+            state.token = null;
+            state.error = "";
+        },
+        resetUser: (state) => {
+            state.firstName = '';
+            state.lastName = '';
+            state.error = null;
+        },
+    },
+
     extraReducers: (builder) => {
         builder
             .addCase(profileAsync.fulfilled, (state, action) => {
-                console.log("Fulfilled action payload:", action.payload);
-
-                const { userData, token } = action.payload;
-                console.log("User Data:", userData);
-                console.log("User Data first name:", userData.firstName);
-
-                console.log("Token:", token);
-
+                const { userData } = action.payload;
                 state.firstName = userData.firstName || '';
                 state.lastName = userData.lastName || '';
                 state.error = "";
@@ -56,5 +61,6 @@ const userSlice = createSlice({
             })
     }
 })
+export const { logout, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

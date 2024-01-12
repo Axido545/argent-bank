@@ -25,6 +25,7 @@ const authSlice = createSlice({
         token: null,
         error: "",
     },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
