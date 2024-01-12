@@ -1,6 +1,7 @@
 export const apiUrl = "http://localhost:3001/api/v1/user/login"
 
 export async function postLogin(email, password) {
+
     return fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -22,7 +23,7 @@ export async function postProfile(token) {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer" + token,
+                Authorization: "Bearer " + token,
             },
         });
 

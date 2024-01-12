@@ -8,9 +8,10 @@ export const profileAsync = createAsyncThunk(
             const state = getState();
             const token = state.auth.token;
             console.log(token);
+
             const tokenObject = JSON.parse(token);
             const tokenValue = tokenObject.token;
-
+            console.log(tokenValue);
             const userData = await postProfile(tokenValue);
             console.log("postProfile result:", userData);
 
@@ -25,6 +26,8 @@ export const profileAsync = createAsyncThunk(
                 token: token,
             };
         } catch (e) {
+            console.e("Erreur lors de la conversion JSON :", e);
+
             return rejectWithValue("");
         }
     }
