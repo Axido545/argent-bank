@@ -43,6 +43,3 @@ export async function postProfile(token) {
     }
 }
 
-export const getToken = () => {
-    return localStorage.getItem("token");
-};

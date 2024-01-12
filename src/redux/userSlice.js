@@ -1,31 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { apiProfile, getToken } from "../services/api";
+import { postProfile } from "../services/api";
 
 export const profileAsync = createAsyncThunk(
     "user/profile",
-    async (_, { rejectWithValue }) => {
+    async (_, { getState, rejectWithValue }) => {
         try {
-            const token = getToken();
-            console.log(getToken())
-            const payload = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            const response = await fetch(apiProfile, payload);
+            const state = getState();
+            const token = state.auth.token;
+            console.log(token);
+            const tokenObject = JSON.parse(token);
+            const tokenValue = tokenObject.token;
 
-            if (!response.ok) {
-                if (response.status === 401) {
-                    throw new Error("Non autorisé");
-                }
+            const userData = await postProfile(tokenValue);
+            console.log("postProfile result:", userData);
 
-                // si d'autres erreurs
-                throw new Error(`HTTP erreur! Status: ${response.status}`);
+            if (userData) {
+                console.log("userData.body:", userData.body);
+            } else {
+                console.log("postProfile request failed or returned empty data");
             }
-
-            const userData = await response.json();
 
             return {
                 userData: userData.body,
