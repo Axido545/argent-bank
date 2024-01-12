@@ -28,12 +28,12 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
-                state.token = action.payload;
+                state.token = action.payload.token;
                 state.error = "";
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.token = null;
-                state.error = action.payload;
+                state.error = action.payload.error;
             })
     }
 })

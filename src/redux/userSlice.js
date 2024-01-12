@@ -3,16 +3,10 @@ import { postProfile } from "../services/api";
 
 export const profileAsync = createAsyncThunk(
     "user/profile",
-    async (_, { getState, rejectWithValue }) => {
+    async (token, { rejectWithValue }) => {
         try {
-            const state = getState();
-            const token = state.auth.token;
-            console.log(token);
 
-            const tokenObject = JSON.parse(token);
-            const tokenValue = tokenObject.token;
-            console.log(tokenValue);
-            const userData = await postProfile(tokenValue);
+            const userData = await postProfile(token);
             console.log("postProfile result:", userData);
 
             if (userData) {
@@ -47,16 +41,18 @@ const userSlice = createSlice({
 
                 const { userData, token } = action.payload;
                 console.log("User Data:", userData);
+                console.log("User Data first name:", userData.firstName);
+
                 console.log("Token:", token);
 
-                state.firstName = action.payload.firstName || '';
-                state.lastName = action.payload.lastName || '';
+                state.firstName = userData.firstName || '';
+                state.lastName = userData.lastName || '';
                 state.error = "";
             })
             .addCase(profileAsync.rejected, (state, action) => {
                 state.firstName = action.payload ? action.payload.firstName || '' : '';
                 state.lastName = action.payload ? action.payload.lastName || '' : '';
-                state.error = action.payload ? action.payload : "Une erreur est survenue";
+                state.error = action.payload.error ? action.payload.error : "Une erreur est survenue";
             })
     }
 })

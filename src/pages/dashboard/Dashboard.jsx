@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import EditName from "../../components/editname/EditName";
 import { useEffect } from "react";
 import { profileAsync } from "../../redux/userSlice";
-// import { getToken } from "../../services/api";
 export default function Dashboard() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
-    // const token = getToken()
     const firstName = useSelector(state => state.user.firstName);
     const lastName = useSelector(state => state.user.lastName);
-
+    console.log(token)
     useEffect(() => {
         if (token) {
             dispatch(profileAsync(token));
@@ -24,7 +22,7 @@ export default function Dashboard() {
         <Header />
         <main className="user-main">
             <header className="user-header">
-                <h1>Welcome back<br />{firstName}{lastName}</h1>
+                <h1>Welcome back<br />{firstName} {lastName}</h1>
                 <EditName />
             </header>
             <div className="section-account">
