@@ -2,6 +2,7 @@ import "./nav.css"
 import { useNavigate, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logout, resetUser } from "../../redux/userSlice"
+import { resetAuth } from "../../redux/authSlice"
 
 export default function Nav() {
     const navigate = useNavigate()
@@ -14,6 +15,7 @@ export default function Nav() {
         dispatch(logout());
         console.log(token)
         dispatch(resetUser());
+        dispatch(resetAuth())
         navigate('/', { replace: true });
     }
 
