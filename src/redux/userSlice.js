@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { postProfile } from "../services/api";
+import { postProfile, putProfile } from "../services/api";
 
 export const profileAsync = createAsyncThunk(
     "user/profile",
@@ -7,13 +7,13 @@ export const profileAsync = createAsyncThunk(
         try {
 
             const userData = await postProfile(token);
-            console.log("postProfile result:", userData);
+            // console.log("postProfile result:", userData);
 
-            if (userData) {
-                console.log("userData.body:", userData.body);
-            } else {
-                console.log("postProfile request failed or returned empty data");
-            }
+            // if (userData) {
+            //     console.log("userData.body:", userData.body);
+            // } else {
+            //     console.log("postProfile request failed or returned empty data");
+            // }
 
             return {
                 userData: userData.body,
@@ -27,12 +27,38 @@ export const profileAsync = createAsyncThunk(
     }
 );
 
+export const updateProfileAsync = createAsyncThunk(
+    "user/updateProfile",
+    async (token, firstName, lastName, { rejectWithValue }) => {
+        try {
+            const userData = await putProfile(token, firstName, lastName);
+            console.log("putProfile result:", userData);
+            if (userData) {
+                console.log("userData.body:", userData.body);
+            } else {
+                console.log("putProfile request failed or returned empty data");
+            }
+
+            return {
+                userData: userData.body,
+                token: token,
+            };
+
+        } catch (e) {
+            console.e("Erreur lors d'edition JSON :", e);
+            return rejectWithValue("");
+
+        }
+    }
+
+)
+
 const userSlice = createSlice({
     name: "user",
     initialState: {
         firstName: '',
         lastName: '',
-        error: null
+        error: null,
     },
     reducers: {
         logout: (state) => {
@@ -44,6 +70,7 @@ const userSlice = createSlice({
             state.lastName = '';
             state.error = null;
         },
+
     },
 
     extraReducers: (builder) => {
@@ -57,8 +84,19 @@ const userSlice = createSlice({
             .addCase(profileAsync.rejected, (state, action) => {
                 state.firstName = action.payload ? action.payload.firstName || '' : '';
                 state.lastName = action.payload ? action.payload.lastName || '' : '';
-                state.error = action.payload.error ? action.payload.error : "Une erreur est survenue";
+                state.error = action.payload ? action.payload : "Une erreur est survenue";
             })
+            .addCase(updateProfileAsync.fulfilled, (state, action) => {
+                const { userData } = action.payload;
+                state.firstName = userData.firstName || '';
+                state.lastName = userData.lastName || '';
+                state.error = "";
+            })
+            .addCase(updateProfileAsync.rejected, (state, action) => {
+                state.firstName = action.payload ? action.payload.firstName || '' : '';
+                state.lastName = action.payload ? action.payload.lastName || '' : '';
+                state.error = action.payload && action.payload.error ? action.payload.error : "Une erreur est survenue";
+            });
     }
 })
 export const { logout, resetUser } = userSlice.actions;

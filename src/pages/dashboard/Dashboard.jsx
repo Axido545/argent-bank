@@ -11,7 +11,7 @@ export default function Dashboard() {
     const token = useSelector(state => state.auth.token)
     const firstName = useSelector(state => state.user.firstName);
     const lastName = useSelector(state => state.user.lastName);
-    console.log(token)
+    // console.log(token)
     useEffect(() => {
         if (token) {
             dispatch(profileAsync(token));

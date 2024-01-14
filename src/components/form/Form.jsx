@@ -14,9 +14,12 @@ export default function Form() {
     const token = useSelector(state => state.auth.token)
 
     useEffect(() => {
+        console.log("errMsg:", errMsg);
         if (token) {
+
             navigate("/dashboard")
         } else {
+
             console.log("pas de token")
         }
     }, [token, navigate, errMsg])

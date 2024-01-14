@@ -34,7 +34,7 @@ const authSlice = createSlice({
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.token = null;
-                state.error = action.payload.error;
+                state.error = action.payload || "Une erreur est survenue";
             })
     }
 })
