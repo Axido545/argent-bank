@@ -61,7 +61,14 @@ export async function putProfile(token, editFirstName, editLastName) {
             },
             body: JSON.stringify({ firstName: editFirstName, lastName: editLastName }),
         });
-        return response.json();
+        // return response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP erreur! Status: ${response.status}`);
+        }
+
+        const userData = await response.json();
+
+        return userData;
 
     } catch (error) {
         // erreurs au cours du fetch

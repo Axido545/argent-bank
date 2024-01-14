@@ -15,16 +15,25 @@ export default function EditName() {
         setIsEditing(true);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
+        try {
+            console.log('setFirstName:', firstName);
+            console.log('setLastName:', lastName);
+            await dispatch(updateProfileAsync({ token, firstName, lastName }));
+            // Close the inputs and reset state
+            setIsEditing(false);
+            setFirstName('');
+            setLastName('');
 
-        console.log('setFirstName:', firstName);
-        console.log('setLastName:', lastName);
-        dispatch(updateProfileAsync({ token, firstName, lastName }));
+        } catch (error) {
+            console.error("erreur durant la mise a jour du nom et prénom:", error.message);
+            if (error.status === 401) {
+                console.log("acces refusé")
+            } else {
+                console.log("erreur survenue")
+            }
+        }
 
-        // Close the inputs and reset state
-        setIsEditing(false);
-        // setFirstName('');
-        // setLastName('');
     };
     const content = isEditing ? (
         <div className="user-edit-form">

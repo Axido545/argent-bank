@@ -29,7 +29,9 @@ export const profileAsync = createAsyncThunk(
 
 export const updateProfileAsync = createAsyncThunk(
     "user/updateProfile",
-    async (token, firstName, lastName, { rejectWithValue }) => {
+    async ({ token, firstName, lastName }, { rejectWithValue }) => {
+        console.log("updateProfileAsync :", token, firstName, lastName)
+
         try {
             const userData = await putProfile(token, firstName, lastName);
             console.log("putProfile result:", userData);
