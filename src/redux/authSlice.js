@@ -15,7 +15,7 @@ export const loginAsync = createAsyncThunk(
             }
             return response.body;
         } catch (error) {
-            return rejectWithValue(error.message || "An error occurred")
+            return rejectWithValue(error.message || "Une erreur est survenue")
         }
     });
 

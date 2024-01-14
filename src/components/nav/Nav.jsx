@@ -10,7 +10,6 @@ export default function Nav() {
     const token = useSelector(state => state.auth.token)
     const firstName = useSelector(state => state.user.firstName);
 
-
     const handleLogout = () => {
         dispatch(logout());
         console.log(token)

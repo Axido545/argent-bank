@@ -20,7 +20,7 @@ export default function EditName() {
             console.log('setFirstName:', firstName);
             console.log('setLastName:', lastName);
             await dispatch(updateProfileAsync({ token, firstName, lastName }));
-            // Close the inputs and reset state
+            //fermer les input et et vide les champs
             setIsEditing(false);
             setFirstName('');
             setLastName('');
