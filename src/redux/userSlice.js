@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { postProfile, putProfile } from "../services/api";
+import { resetAuth } from "./authSlice";
 
 export const profileAsync = createAsyncThunk(
     "user/profile",
@@ -7,13 +8,13 @@ export const profileAsync = createAsyncThunk(
         try {
 
             const userData = await postProfile(token);
-            // console.log("postProfile result:", userData);
+            console.log("postProfile result:", userData);
 
-            // if (userData) {
-            //     console.log("userData.body:", userData.body);
-            // } else {
-            //     console.log("postProfile request failed or returned empty data");
-            // }
+            if (userData) {
+                console.log("userData.body:", userData.body);
+            } else {
+                console.log("postProfile request failed or returned empty data");
+            }
 
             return {
                 userData: userData.body,
@@ -66,6 +67,8 @@ const userSlice = createSlice({
         logout: (state) => {
             state.token = null;
             state.error = "";
+            console.log("Appel de resetAuth");
+            resetAuth();
         },
         resetUser: (state) => {
             state.firstName = '';

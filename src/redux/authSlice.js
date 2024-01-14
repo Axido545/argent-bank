@@ -25,7 +25,12 @@ const authSlice = createSlice({
         token: null,
         error: "",
     },
-    reducers: {},
+    reducers: {
+        resetAuth: (state) => {
+            state.token = null;
+            state.error = "";
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(loginAsync.fulfilled, (state, action) => {
@@ -38,5 +43,7 @@ const authSlice = createSlice({
             })
     }
 })
+
+export const { resetAuth } = authSlice.actions;
 
 export default authSlice.reducer;

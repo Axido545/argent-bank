@@ -1,5 +1,5 @@
 import "./nav.css"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logout, resetUser } from "../../redux/userSlice"
 
@@ -11,18 +11,28 @@ export default function Nav() {
     const firstName = useSelector(state => state.user.firstName);
 
 
-    const handlelogOut = () => {
+    const handleLogout = () => {
         dispatch(logout());
+        console.log(token)
         dispatch(resetUser());
-
         navigate('/', { replace: true });
-
     }
 
-    return (<NavLink to={token ? "/" : "/login"}
-        className="header-nav"> {firstName ? firstName + " " : " "}
-        <i className="fa fa-user-circle"></i>
-        {token ? <span onClick={handlelogOut}>Sign Out</span> : "Sign In"}
-    </NavLink>
-    )
+    return (
+        <div>
+            {token ? (
+                <Link to="/" className="header-nav">
+                    <i className="fa fa-user-circle"></i>
+                    {firstName && <span>{firstName} </span>}
+                    <span onClick={handleLogout}>
+                        <i className="fa fa-right-from-bracket"></i> Sign out
+                    </span>
+                </Link>
+            ) : (
+                <Link to="/login" className="header-nav">
+                    <i className="fa fa-user-circle"></i> Sign in
+                </Link>
+            )}
+        </div>
+    );
 }

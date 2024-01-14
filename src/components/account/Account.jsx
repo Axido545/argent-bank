@@ -1,11 +1,13 @@
 import "./account.css"
-import AccountDesc from "../accountdesc/accountDesc"
-import BtnTransaction from "../btntransaction/BtnTransaction"
 
-export default function Account({ type }) {
+export default function Account({ title, amount, description }) {
     return <section className="account">
-        <AccountDesc type={type} />
-        <BtnTransaction />
+        <div className="account-content-wrapper">
+            <h3 className="account-title">Argent Bank {title}</h3>
+            <p className="account-amount">{amount}</p>
+            <p className="account-amount-description">{description} Balance</p>
+        </div>
+        <button className="btn-transaction">View transactions</button>
     </section >
 }
 

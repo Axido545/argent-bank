@@ -26,7 +26,7 @@ export default function EditName() {
             setLastName('');
 
         } catch (error) {
-            console.error("erreur durant la mise a jour du nom et prénom:", error.message);
+            console.error("erreur durant la mise à jour:", error.message);
             if (error.status === 401) {
                 console.log("acces refusé")
             } else {

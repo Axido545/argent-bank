@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EditName from "../../components/editname/EditName";
 import { useEffect } from "react";
 import { profileAsync } from "../../redux/userSlice";
+import { accounts } from "../../../public/account.js"
 export default function Dashboard() {
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
@@ -26,13 +27,14 @@ export default function Dashboard() {
                 <EditName />
             </header>
             <div className="section-account">
-                <Account type='checking' />
-            </div>
-            <div className="section-account">
-                <Account type='saving' />
-            </div>
-            <div className="section-account">
-                <Account type="creditCard" />
+                {accounts.map((account, index) => (
+                    <Account
+                        key={index}
+                        title={account.title}
+                        amount={account.amount}
+                        description={account.description}
+                    />
+                ))}
             </div>
         </main>
         <Footer />
