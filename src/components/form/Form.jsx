@@ -10,6 +10,10 @@ export default function Form() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(() => {
+        const rememberMeValue = localStorage.getItem("rememberMe") === "true";
+        return rememberMeValue;
+    });
     const errMsg = useSelector(state => state.auth.error)
     const token = useSelector(state => state.auth.token)
 
@@ -17,10 +21,12 @@ export default function Form() {
         console.log("errMsg:", errMsg);
         if (token) {
             navigate("/dashboard")
+            localStorage.setItem("rememberMe", rememberMe.toString());
+
         } else {
             console.log("pas de token")
         }
-    }, [token, navigate, errMsg])
+    }, [token, navigate, errMsg, rememberMe])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +35,7 @@ export default function Form() {
 
     const handleUserInput = (e) => setEmail(e.target.value)
     const handlePasswordInput = (e) => setPassword(e.target.value)
+    const handleRememberMe = () => { setRememberMe(!rememberMe); };
 
     const content = (
         <section className="Login">
@@ -45,7 +52,8 @@ export default function Form() {
                     <input id="password" type="password" value={password} onChange={handlePasswordInput} autoComplete="current-password" />
                 </div>
                 <div className="input-remember">
-                    <input type="checkbox" id="remember-me" />
+                    <input type="checkbox" id="remember-me" checked={rememberMe}
+                        onChange={handleRememberMe} />
                     <label htmlFor="remember-me">Remember me</label>
                 </div>
                 <button className="login-button" onClick={handleSubmit} >Sign in</button>
