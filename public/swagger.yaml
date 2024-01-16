@@ -1,9 +1,9 @@
 swagger: '2.0'
 info:
-  title: Gestion des Transactions API
+  title: Argent Bank Gestion des Transactions API
   version: '1.0.0'
-
-paths:
+host : localhost :3001
+basepaths: http://localhost:3001/api/v1/
   /transactions:
     get:
       summary: Récupérer toutes les transactions du mois en cours, groupées par compte

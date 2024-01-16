@@ -6,3 +6,9 @@
 .feature-home-item {
   width: 30%;
 }
+
+@media (max-width: 640px) {
+  .feature-home {
+    flex-direction: column;
+  }
+}
