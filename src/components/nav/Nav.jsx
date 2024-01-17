@@ -13,7 +13,6 @@ export default function Nav() {
 
     const handleLogout = () => {
         dispatch(logout());
-        console.log(token)
         dispatch(resetUser());
         dispatch(resetAuth())
         navigate('/', { replace: true });

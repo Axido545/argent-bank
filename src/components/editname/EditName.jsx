@@ -9,17 +9,13 @@ export default function EditName() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const token = useSelector(state => state.auth.token)
-    console.log(token, firstName, lastName)
-
     const handleOpenInput = () => {
-        setIsEditing(true);
+        setIsEditing(!isEditing);
     };
 
-    const handleSave = async () => {
+    const handleSave = () => {
         try {
-            console.log('setFirstName:', firstName);
-            console.log('setLastName:', lastName);
-            await dispatch(updateProfileAsync({ token, firstName, lastName }));
+            dispatch(updateProfileAsync({ token, firstName, lastName }));
             //fermer les input et et vide les champs
             setIsEditing(false);
             setFirstName('');
@@ -27,32 +23,39 @@ export default function EditName() {
 
         } catch (error) {
             console.error("erreur durant la mise à jour:", error.message);
-            if (error.status === 401) {
-                console.log("acces refusé")
-            } else {
-                console.log("erreur survenue")
-            }
         }
 
     };
     const content = isEditing ? (
-        <div className="user-edit-form">
-            <input
-                type="text"
-                placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Last Name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-            />
-            <button className="user-edit-button" onClick={handleSave}>
-                Save
-            </button>
-        </div>
+        <form onSubmit={handleSave} className="user-edit-form">
+            <div className='form-layout'>
+
+                <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                />
+
+            </div>
+
+            <div className='form-layout'>
+                <button className="user-edit-button" type='submit' >
+                    Save
+                </button>
+                <button className="user-edit-button" onClick={handleOpenInput}>
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
     ) : (
         <button className="user-edit-button" onClick={handleOpenInput}>
             Edit Name

@@ -50,8 +50,6 @@ export async function postProfile(token) {
 
 
 export async function putProfile(token, editFirstName, editLastName) {
-    console.log("putProfile token:", token, editFirstName, editLastName);
-
     try {
         const response = await fetch(apiProfile, {
             method: 'PUT',

@@ -18,13 +18,9 @@ export default function Form() {
     const token = useSelector(state => state.auth.token)
 
     useEffect(() => {
-        console.log("errMsg:", errMsg);
         if (token) {
             navigate("/dashboard")
             localStorage.setItem("rememberMe", rememberMe.toString());
-
-        } else {
-            console.log("pas de token")
         }
     }, [token, navigate, errMsg, rememberMe])
 

@@ -7,8 +7,10 @@ import EditName from "../../components/editname/EditName";
 import { useEffect } from "react";
 import { profileAsync } from "../../redux/userSlice";
 import { accounts } from "../../../public/account.js"
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const firstName = useSelector(state => state.user.firstName);
@@ -16,8 +18,10 @@ export default function Dashboard() {
     useEffect(() => {
         if (token) {
             dispatch(profileAsync(token));
+        } else {
+            navigate("/login")
         }
-    }, [token, dispatch])
+    }, [token, dispatch, navigate])
 
     return <div>
         <Header />
