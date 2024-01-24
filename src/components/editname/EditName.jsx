@@ -32,13 +32,13 @@ export default function EditName() {
 
                 <input
                     type="text"
-                    placeholder={firstName}
+                    placeholder="firstName"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                 />
                 <input
                     type="text"
-                    placeholder={lastName}
+                    placeholder="lastName"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                 />
